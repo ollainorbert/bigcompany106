@@ -23,7 +23,6 @@ public class EmployeeStatisticsCalculator {
         Map<Integer, List<Employee>> managerIdWithSubordinatesMap = buildManagerIdWithSubordinatesMap(employees);
         Map<Integer, Double> averageEarningsForManagersTeam = calculateAverageEarningsForManagersTeam(managerIdWithSubordinatesMap);
 
-        // When calculating the earning related data, I'll assume the CEO is a Manager as well
         var managersWithEarningDifferenceMapContainer = calculateManagersWithEarningDifferences(averageEarningsForManagersTeam, idWithEmployeeMap);
         return new EmployeeStatistics(
             managersWithEarningDifferenceMapContainer.managersWithLessExpectedEarning(),
