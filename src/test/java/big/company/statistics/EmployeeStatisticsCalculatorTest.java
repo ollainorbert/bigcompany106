@@ -23,11 +23,11 @@ class EmployeeStatisticsCalculatorTest {
         new Employee(305, "Brett", "Hardleaf", 34000, 300)
     );
     private static final List<Employee> EMPLOYEE_LIST_WITH_INCORRECT_MANAGER_REFERENCING = List.of(
-            new Employee(123, "Joe", "Doe", 60000, null),
-            new Employee(124, "Martin", "Chekov", 45000, 123),
-            new Employee(125, "Bob", "Ronstad", 47000, 123),
-            new Employee(300, "Alice", "Hasacat", 50000, 305),
-            new Employee(305, "Brett", "Hardleaf", 34000, 300)
+        new Employee(123, "Joe", "Doe", 60000, null),
+        new Employee(124, "Martin", "Chekov", 45000, 123),
+        new Employee(125, "Bob", "Ronstad", 47000, 123),
+        new Employee(300, "Alice", "Hasacat", 50000, 305),
+        new Employee(305, "Brett", "Hardleaf", 34000, 300)
     );
     private static final List<Employee> EMPLOYEE_LIST = List.of(
         new Employee(123, "Joe", "Doe", 60000, null),
@@ -74,7 +74,6 @@ class EmployeeStatisticsCalculatorTest {
                 () -> calculator.calculate(EMPLOYEE_LIST_WITH_INCORRECT_MANAGER_REFERENCING)
         );
 
-        // TODO This will maybe break, check back later
         assertEquals(String.format(EMPLOYEE_WITH_NON_EXISTENT_MANAGER_OR_INCORRECT_REFERENCE_PATTERN, "305", "300"), thrown.getMessage());
     }
 

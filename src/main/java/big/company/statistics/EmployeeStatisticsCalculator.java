@@ -3,6 +3,7 @@ package big.company.statistics;
 import big.company.domain.Employee;
 import big.company.domain.EmployeeStatistics;
 import big.company.domain.IncorrectEmployeeDataException;
+import big.company.domain.ManagersWithEarningDifferenceMapContainer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +24,10 @@ public class EmployeeStatisticsCalculator {
         Map<Integer, Double> averageEarningsForManagersTeam = calculateAverageEarningsForManagersTeam(managerIdWithSubordinatesMap);
 
         // When calculating the earning related data, I'll assume the CEO is a Manager as well
+        var managersWithEarningDifferenceMapContainer = calculateManagersWithEarningDifferences(averageEarningsForManagersTeam, idWithEmployeeMap);
         return new EmployeeStatistics(
-            calculateManagersWithLessExpectedEarning(averageEarningsForManagersTeam, idWithEmployeeMap),
-            calculateManagersWithMoreExpectedEarning(averageEarningsForManagersTeam, idWithEmployeeMap),
+            managersWithEarningDifferenceMapContainer.managersWithLessExpectedEarning(),
+            managersWithEarningDifferenceMapContainer.managersWithMoreExpectedEarning(),
             calculateEmployeesWithLongReportingLine(idWithEmployeeMap)
         );
     }
@@ -62,41 +64,27 @@ public class EmployeeStatisticsCalculator {
         ));
     }
 
-    // TODO these two method probably could get refactored
-    private Map<Employee, Double> calculateManagersWithLessExpectedEarning(Map<Integer, Double> averageEarningsForManagersTeam, Map<Integer, Employee> idWithEmployeeMap) {
-        Map<Employee, Double> res = new HashMap<>();
+    private ManagersWithEarningDifferenceMapContainer calculateManagersWithEarningDifferences(Map<Integer, Double> averageEarningsForManagersTeam, Map<Integer, Employee> idWithEmployeeMap) {
+        Map<Employee, Double> managersWithLess = new HashMap<>();
+        Map<Employee, Double> managersWithMore = new HashMap<>();
         averageEarningsForManagersTeam.forEach((managerId, teamsAverageEarning) -> {
             if (idWithEmployeeMap.containsKey(managerId)) {
                 Employee manager = idWithEmployeeMap.get(managerId);
                 int managerEarning = manager.salary();
+
                 double managerShouldEarnAtLeast = teamsAverageEarning * MIN_SALARY_PERCENTAGE;
                 if (managerEarning < managerShouldEarnAtLeast) {
-                    res.put(manager, managerShouldEarnAtLeast - managerEarning);
+                    managersWithLess.put(manager, managerShouldEarnAtLeast - managerEarning);
                 }
-            } else {
-                // TODO maybe this validation can go somewhere else
-                throw new IncorrectEmployeeDataException(String.format(MANAGER_NOT_EXIST_PATTERN, managerId));
-            }
-        });
-        return res;
-    }
-
-    private Map<Employee, Double> calculateManagersWithMoreExpectedEarning(Map<Integer, Double> averageEarningsForManagersTeam, Map<Integer, Employee> idWithEmployeeMap) {
-        Map<Employee, Double> res = new HashMap<>();
-        averageEarningsForManagersTeam.forEach((managerId, teamsAverageEarning) -> {
-            if (idWithEmployeeMap.containsKey(managerId)) {
-                Employee manager = idWithEmployeeMap.get(managerId);
-                int managerEarning = manager.salary();
                 double managerShouldEarnAtLast = teamsAverageEarning * MAX_SALARY_PERCENTAGE;
                 if (managerEarning > managerShouldEarnAtLast) {
-                    res.put(manager, managerEarning - managerShouldEarnAtLast);
+                    managersWithMore.put(manager, managerEarning - managerShouldEarnAtLast);
                 }
             } else {
-                // TODO maybe this validation can go somewhere else
                 throw new IncorrectEmployeeDataException(String.format(MANAGER_NOT_EXIST_PATTERN, managerId));
             }
         });
-        return res;
+        return new ManagersWithEarningDifferenceMapContainer(managersWithLess, managersWithMore);
     }
 
     private Map<Employee, Integer> calculateEmployeesWithLongReportingLine(Map<Integer, Employee> idWithEmployeeMap) {
