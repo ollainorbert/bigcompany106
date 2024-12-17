@@ -9,7 +9,7 @@ public class IncorrectEmployeeDataException extends RuntimeException {
         super(message);
     }
 
-    public IncorrectEmployeeDataException(String message, Throwable cause) {
+    public IncorrectEmployeeDataException(String message, Exception cause) {
         super(message, cause);
     }
 }

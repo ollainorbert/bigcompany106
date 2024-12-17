@@ -74,8 +74,8 @@ public class EmployeeInfoCsvFileReader implements EmployeeInfoFileReader {
                     new BigDecimal(parts[ROW_PART_FOR_SALARY_INDEX]),
                     retrieveManagerId(parts)
                 );
-            } catch (Exception throwable) {
-                throw new IncorrectEmployeeDataException(ERROR_DUE_INCORRECT_DATA_TYPE_IN_THE_FILES_RAW_DATA, throwable);
+            } catch (Exception exception) {
+                throw new IncorrectEmployeeDataException(ERROR_DUE_INCORRECT_DATA_TYPE_IN_THE_FILES_RAW_DATA, exception);
             }
         }).toList();
     }
