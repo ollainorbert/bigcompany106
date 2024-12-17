@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class IntegrationTest {
+class IntegrationTest {
     private static final String EXPECTED_OUTPUT =
         """
         Managers who earn less than they should:
@@ -25,7 +25,7 @@ public class IntegrationTest {
         """;
 
     @Test
-    public void intTest() {
+    void intTest() {
         String[] arguments = new String[] { "src/test/resources/integration-test.csv" };
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

@@ -3,10 +3,10 @@ package big.company;
 import big.company.input.EmployeeFileNameArgumentExtractor;
 import big.company.input.EmployeeInfoCsvFileReader;
 import big.company.input.EmployeeInfoFileReader;
+import big.company.mapper.EmploymentMapper;
 import big.company.report.EmployeeStatisticsConsoleReportCreator;
 import big.company.report.EmployeeStatisticsReportCreator;
 import big.company.statistics.EmployeeStatisticsCalculator;
-import big.company.validation.EmployeeInputValidator;
 
 /**
  * Start the program with adding the file name as argument,
@@ -20,11 +20,11 @@ public class Main {
         EmployeeInfoFileReader fileReader = new EmployeeInfoCsvFileReader();
         var employees = fileReader.read(fileName);
 
-        EmployeeInputValidator validator = new EmployeeInputValidator();
-        validator.validate(employees);
+        EmploymentMapper employmentMapper = new EmploymentMapper();
+        var employment = employmentMapper.map(employees);
 
         EmployeeStatisticsCalculator calculator = new EmployeeStatisticsCalculator();
-        var statisticsResult = calculator.calculate(employees);
+        var statisticsResult = calculator.calculate(employment);
 
         EmployeeStatisticsReportCreator reporter = new EmployeeStatisticsConsoleReportCreator();
         var report = reporter.createReport(statisticsResult);

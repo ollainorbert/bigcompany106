@@ -1,5 +1,8 @@
 package big.company.domain;
 
+/**
+ * Custom exception to indicate the employee data related issues.
+ */
 public class IncorrectEmployeeDataException extends RuntimeException {
 
     public IncorrectEmployeeDataException(String message) {

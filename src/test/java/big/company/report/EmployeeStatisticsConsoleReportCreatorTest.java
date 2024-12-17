@@ -5,6 +5,7 @@ import big.company.domain.EmployeeStatistics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,15 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class EmployeeStatisticsConsoleReportCreatorTest {
     private static final EmployeeStatistics EMPLOYEE_STATISTICS = new EmployeeStatistics(
         Map.of(
-            new Employee(123, "Joe", "Doe", 60000, null), 238200.0,
-            new Employee(305, "Brett", "Hardleaf", 34000, 300), 8000.0,
-            new Employee(306, "Brett1", "Hardleaf1", 35000, 305), 8200.0,
-            new Employee(307, "Brett2", "Hardleaf2", 36000, 306), 8400.0
+            new Employee(123, "Joe", "Doe", BigDecimal.valueOf(60000), null), BigDecimal.valueOf(238200.0),
+            new Employee(305, "Brett", "Hardleaf", BigDecimal.valueOf(34000), 300), BigDecimal.valueOf(8000.0),
+            new Employee(306, "Brett1", "Hardleaf1", BigDecimal.valueOf(35000), 305), BigDecimal.valueOf(8200.0),
+            new Employee(307, "Brett2", "Hardleaf2", BigDecimal.valueOf(36000), 306), BigDecimal.valueOf(8400.0)
         ),
-        Map.of(new Employee(124, "Martin", "Chekov", 450000, 123), 375000.0),
+        Map.of(new Employee(124, "Martin", "Chekov", BigDecimal.valueOf(450000), 123), BigDecimal.valueOf(375000.0)),
         Map.of(
-            new Employee(308, "Brett3", "Hardleaf3", 37000, 307), 5,
-            new Employee(309, "Brett4", "Hardleaf4", 38000, 308), 6
+            new Employee(308, "Brett3", "Hardleaf3", BigDecimal.valueOf(37000), 307), 5,
+            new Employee(309, "Brett4", "Hardleaf4", BigDecimal.valueOf(38000), 308), 6
         )
     );
     private static final String EXPECTED_REPORT =
